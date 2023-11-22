@@ -38,6 +38,10 @@ mpDraw = mp.solutions.drawing_utils
 
 
 class Teleop:
+    def test():
+        print('Test function')
+
+
     def __init__(self):
         self.velocity_publisher = rospy.Publisher('cmd_vel', Twist, queue_size = 1)
         self.pose_lite_publisher = rospy.Publisher('body_pose/raw', PoseLite, queue_size = 1)

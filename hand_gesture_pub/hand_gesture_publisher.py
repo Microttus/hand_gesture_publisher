@@ -5,18 +5,7 @@ from std_msgs.msg import String
 
 import os
 
-#from __future__ import print_function
-
-#import roslib; #roslib.load_manifest('champ_teleop')
-#import rospy
-
-#from sensor_msgs.msg import Joy
-#from geometry_msgs.msg import Twist
-#from champ_msgs.msg import Pose as PoseLite
-#from geometry_msgs.msg import Pose as Pose
 import tensorflow as tf
-
-#import sys, select, termios, tty
 import numpy as np
 
 import cv2
@@ -34,8 +23,6 @@ mpDraw = mp.solutions.drawing_utils
 cap = cv2.VideoCapture(0)
 detector = HandDetector(maxHands=1)
 
-
-#arduinoData = serial.Serial('com7', 9600)
 
 
 class HandTeleop:
@@ -95,8 +82,6 @@ class HandTeleop:
 
 
             pred = self.model.predict(Data)
-
-            control_msg = 'pred done'
 
             print(pred[:, 0])
 
@@ -200,9 +185,6 @@ class HandTeleop:
                 print("Spare")
                 #cv2.putText(img, str("Right"), (40, 70), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
             '''
-            
-
-            #self.velocity_publisher.publish(twist)
 
 
         except Exception as e:
@@ -211,8 +193,6 @@ class HandTeleop:
         return control_msg
 
         
-
-
 
 class HandGesturePublisher(Node):
 
