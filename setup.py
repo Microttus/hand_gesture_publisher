@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 package_name = 'hand_gesture_pub'
 
 setup(
-    name=hand_gesture_pubulisher,
+    name=package_name,
     version='0.0.   ',
     packages=find_packages(exclude=['test']),
     data_files=[
@@ -20,7 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'talker = hand_gesture_pub.publisher_member_function:main'
+            'hand_gest_pub = hand_gesture_pub.hand_gesture_publisher:main'
         ],
     },
 )
