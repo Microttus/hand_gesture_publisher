@@ -5,6 +5,7 @@ is able to use a camera feed to recognise different hand gestures.
 
 This package provides a single executable which uses the build in camera
 to track a hand, and post a string with the gesture in a topic. 
+The default topic is set to ```/hand_gesture```
 
 ## How to use
 
