@@ -37,9 +37,9 @@ class HandTeleop:
 
 
     def __init__(self):
-        package_share_direcroty = get_package_share_directory('hand_gesture_pub');
+        package_share_direcroty = get_package_share_directory('hand_gesture_pub')
         print(package_share_direcroty)
-        self.model = tf.keras.models.load_model(os.path.join(package_share_direcroty, '/home/martin/haptic_ws/src/hand_gesture_publisher/resource/CNN_LSTM_Latest.h5'))
+        self.model = tf.keras.models.load_model(os.path.join(package_share_direcroty, 'CNN_LSTM_Latest.h5'))
         
 
     def poll_keys(self):
