@@ -21,7 +21,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'hand_gest_pub = hand_gesture_pub.hand_gesture_publisher:main'
+            'hand_gest_pub = hand_gesture_pub.hand_gesture_publisher:main',
+            'palm_pos_pub = hand_gesture_pub.hand_palm_pub:main',
         ],
     },
 )

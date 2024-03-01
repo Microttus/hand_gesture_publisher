@@ -2,7 +2,7 @@
 <module type="CPP_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Python" name="Python facet">
-      <configuration sdkName="Python 3.9 (hand_gesture_pub)" />
+      <configuration sdkName="Python 3.10 (hand_gesture_publisher)" />
     </facet>
   </component>
   <component name="NewModuleRootManager">
@@ -11,6 +11,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Python 3.9 (hand_gesture_pub) interpreter library" level="application" />
+    <orderEntry type="library" name="Python 3.10 (hand_gesture_publisher) interpreter library" level="application" />
   </component>
 </module>

@@ -1,0 +1,8 @@
+pytest~=8.0.1
+keras~=2.15.0
+numpy~=1.26.4
+setuptools~=68.2.0
+opencv-python~=4.9.0.80
+mediapipe~=0.10.10
+tensorflow~=2.15.0
+cvzone~=1.6.1
