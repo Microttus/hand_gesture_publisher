@@ -21,6 +21,7 @@ from cvzone.HandTrackingModule import HandDetector
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
+from geometry_msgs.msg import Twist
 
 mpHands = mp.solutions.hands
 hands = mpHands.Hands()
@@ -42,6 +43,7 @@ class HandLocationFinder:
 
     def find_palm_pos(self):
         # print('Test function')
+        palm_pos_coordinates = []
 
         success, img1 = cap.read()
         hand, img1 = detector.findHands(img1)
@@ -49,17 +51,20 @@ class HandLocationFinder:
         try:
             palm_pos = hand[0]['lmList'][0]
         except IndexError:
-            #print(f"Error: {e}")
+            #print("Index error ...")
             palm_pos = None
 
         if palm_pos is not None:
-            self.apply_camera_matrix(palm_pos[0], palm_pos[1])
-            cv2.circle(img1, (palm_pos[0], palm_pos[1]), 10, (0, 255, 0), thickness=cv2.FILLED)
+            palm_pos_coordinates = self.apply_camera_matrix(palm_pos[0], palm_pos[1])
+            #cv2.circle(img1, (palm_pos[0], palm_pos[1]), 10, (0, 255, 0), thickness=cv2.FILLED)
 
-        cv2.imshow("Image", img1)
-        cv2.waitKey(500)
+        #cv2.imshow("Image", img1)
+        #cv2.waitKey(100)
 
-        return palm_pos
+        if palm_pos is not None:
+            return palm_pos_coordinates
+        else:
+            return None
 
     def apply_camera_matrix(self, img_x, img_y):
 
@@ -84,30 +89,44 @@ class HandLocationFinder:
         # Apply the transformation matrix
         world_coordinates = np.dot(transformation_matrix, image_points.T).T
 
-        print("World Coordinates:", world_coordinates[:, :2])
+        #print("World Coordinates:", world_coordinates[:, :2])
+        #print("World Coordinates:", world_coordinates[0, 1])
+
+        return world_coordinates[0, :]
 
 
 class HandPosPublisher(Node):
 
     HandFinderObj = HandLocationFinder()
+    detection_flag_ = True
 
     def __init__(self):
         super().__init__('palm_location_finder')
 
-        self.publisher_ = self.create_publisher(String, 'palm_pos_id1', 10)
-        timer_period = 0.5  # seconds
+        self.publisher_ = self.create_publisher(Twist, 'palm_pos_id1', 10)
+        timer_period = 1  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
+        self.gain = 1
 
     def timer_callback(self):
-        control_string = self.HandFinderObj.find_palm_pos()
-        #control_string = self.HandRecognition.poll_keys()
+        palm_coordinates = self.HandFinderObj.find_palm_pos()
         #self.get_logger().info('Ran the Hand Recognition')
+        #print(palm_coordinates)
 
-        msg = String()
-        msg.data = str(control_string)
-        self.publisher_.publish(msg)
-        #self.get_logger().info('Publishing: "%s"' % msg.data)
+        if palm_coordinates is not None:
+            msg = Twist()
+            msg.linear.x = palm_coordinates[0] * self.gain
+            msg.linear.y = palm_coordinates[1] * self.gain
+            self.publisher_.publish(msg)
+
+            if not self.detection_flag_:
+                self.get_logger().info("Found hand and started tracking")
+                self.detection_flag_ = True
+        else:
+            if self.detection_flag_:
+                self.get_logger().warning("No hand detected ...")
+                self.detection_flag_ = False
 
 
 def main(args=None):
