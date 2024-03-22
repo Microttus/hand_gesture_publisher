@@ -23,6 +23,7 @@ setup(
         'console_scripts': [
             'hand_gest_pub = hand_gesture_pub.hand_gesture_publisher:main',
             'palm_pos_pub = hand_gesture_pub.hand_palm_pub:main',
+            'marker_pos_pub = hand_gesture_pub.marker_finder:main'
         ],
     },
 )

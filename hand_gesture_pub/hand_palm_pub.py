@@ -58,8 +58,8 @@ class HandLocationFinder:
             palm_pos_coordinates = self.apply_camera_matrix(palm_pos[0], palm_pos[1])
             #cv2.circle(img1, (palm_pos[0], palm_pos[1]), 10, (0, 255, 0), thickness=cv2.FILLED)
 
-        #cv2.imshow("Image", img1)
-        #cv2.waitKey(100)
+        cv2.imshow("Image", img1)
+        cv2.waitKey(10)
 
         if palm_pos is not None:
             return palm_pos_coordinates
@@ -104,7 +104,7 @@ class HandPosPublisher(Node):
         super().__init__('palm_location_finder')
 
         self.publisher_ = self.create_publisher(Twist, 'palm_pos_id1', 10)
-        timer_period = 1  # seconds
+        timer_period = 0.1  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
         self.gain = 1
