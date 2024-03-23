@@ -30,7 +30,7 @@ class MarkerLocationFinder:
         image = cv2.GaussianBlur(image, (5, 5), 0)
 
         image_HSV = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-        lower_pink = np.array([self.color_low, 50, 50])
+        lower_pink = np.array([self.color_low, 120, 120])
         upper_pink = np.array([self.color_high, 255, 255])
         mask = cv2.inRange(image_HSV, lower_pink, upper_pink)
         mask = cv2.GaussianBlur(mask, (5, 5), 0)
