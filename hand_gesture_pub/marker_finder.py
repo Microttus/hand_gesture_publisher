@@ -16,7 +16,7 @@ import time
 class MarkerLocationFinder:
 
     def __init__(self):
-        self.camera_index = 0
+        self.camera_index = 6
         self.cap = cv2.VideoCapture(self.camera_index)
         self.color_low = 0
         self.color_high = 2
