@@ -20,6 +20,13 @@ mpHands = mp.solutions.hands
 hands = mpHands.Hands()
 mpDraw = mp.solutions.drawing_utils
 
+
+class LSTM(tf.keras.layers.LSTM):
+    # Keras 3 no longer accepts 'time_major', which the Keras 2 saved model still has
+    def __init__(self, *args, time_major=False, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
 cap = cv2.VideoCapture(0)
 detector = HandDetector(maxHands=1)
 
@@ -39,7 +46,8 @@ class HandTeleop:
     def __init__(self):
         package_share_direcroty = get_package_share_directory('hand_gesture_pub')
         print(package_share_direcroty)
-        self.model = tf.keras.models.load_model(os.path.join(package_share_direcroty, 'CNN_LSTM_Latest.h5'))
+        self.model = tf.keras.models.load_model(os.path.join(package_share_direcroty, 'CNN_LSTM_Latest.h5'),
+                                                custom_objects={'LSTM': LSTM})
         
 
     def poll_keys(self):

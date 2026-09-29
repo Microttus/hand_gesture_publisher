@@ -25,7 +25,15 @@ from cvzone.HandTrackingModule import HandDetector
 
 #arduinoData = serial.Serial('com7', 9600)
 
-loaded_model = tf.keras.models.load_model('../resource/CNN_LSTM_Latest.h5', compile=False)
+
+class LSTM(tf.keras.layers.LSTM):
+    # Keras 3 no longer accepts 'time_major', which the Keras 2 saved model still has
+    def __init__(self, *args, time_major=False, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+loaded_model = tf.keras.models.load_model('../resource/CNN_LSTM_Latest.h5', compile=False,
+                                          custom_objects={'LSTM': LSTM})
 detector = HandDetector(maxHands=1)
 cap = cv2.VideoCapture(0)
 global Data
